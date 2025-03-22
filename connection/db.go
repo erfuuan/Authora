@@ -1,6 +1,7 @@
 package connection
 
 import (
+	"Authora/model"
 	"fmt"
 	"log"
 
@@ -8,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func InitConnection() {
+func InitDb() {
 	dsn := "user=Authora password=Authora dbName=Authora sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
@@ -29,4 +30,13 @@ func InitConnection() {
 	} else {
 		fmt.Println("Connected to the database successfully!")
 	}
+
+	err := sqlDb.AutoMigrate(&model.Business{})
+
+	if err != nil {
+		log.Fatalf("Failed to migrate database: %v", err)
+	}
+
+	log.Println("Database connected and migrations applied successfully")
+	return sqlDb
 }

@@ -1,7 +1,8 @@
 package main
 
 import (
-	"fm
+	"fmt"
+	"log"
 	"net"
 	"net/http"
 	"net/url"
@@ -14,6 +15,7 @@ import (
 )
 
 func main() {
+	connection.InitDb()
 	// Set up the SOCKS5 proxy
 	socks5Proxy := "socks5://127.0.0.1:25344" // Change this to your proxy address
 	proxyURL, err := url.Parse(socks5Proxy)
@@ -38,7 +40,7 @@ func main() {
 	httpClient := &http.Client{Transport: transport}
 
 	// Initialize the Telegram bot with the proxy-configured HTTP client
-	bot, err := tgbotapi.NewBotAPIWithClient("tokenBot", tgbotapi.APIEndpoint, httpClient)
+	bot, err := tgbotapi.NewBotAPIWithClient("token", tgbotapi.APIEndpoint, httpClient)
 	if err != nil {
 		log.Fatal("Failed to create bot:", err)
 	}
@@ -46,6 +48,7 @@ func main() {
 	// Set bot debug mode
 	// bot.Debug = true
 
+	//?
 	log.Printf("Authorized on account %s", bot.Self.UserName)
 
 	// Start handling updates
