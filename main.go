@@ -38,7 +38,7 @@ func main() {
 	httpClient := &http.Client{Transport: transport}
 
 	// Initialize the Telegram bot with the proxy-configured HTTP client
-	bot, err := tgbotapi.NewBotAPIWithClient("7808588487:AAFXqaEb8K1SpLY4K-G30znIIk3NLC1I4Cs", tgbotapi.APIEndpoint, httpClient)
+	bot, err := tgbotapi.NewBotAPIWithClient("tokenBot", tgbotapi.APIEndpoint, httpClient)
 	if err != nil {
 		log.Fatal("Failed to create bot:", err)
 	}
