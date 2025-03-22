@@ -1,42 +1,36 @@
 package connection
 
 import (
-	"Authora/model"
-	"fmt"
 	"log"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+
+	"github.com/erfuuan/Authora/model"
 )
 
-func InitDb() {
-	dsn := "user=Authora password=Authora dbName=Authora sslmode=disable"
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+var DB *gorm.DB
+
+func InitDb() (*gorm.DB, error) {
+	var err error
+	dsn := "user=Authora password=Authora dbname=Authora host=localhost port=5432 sslmode=disable"
+	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		log.Fatal("Failed to connect to the database:", err)
+		return nil, err
 	}
 
-	sqlDb, err := db.DB()
-
-	if err != nil {
-		log.Fatal("Failed to get database instance:", err)
-	}
-
-	err := sqlDb.Ping()
-	if err != nil {
-
-		log.Fatal("Failed to ping database:", err)
-	} else {
-		fmt.Println("Connected to the database successfully!")
-	}
-
-	err := sqlDb.AutoMigrate(&model.Business{})
-
-	if err != nil {
-		log.Fatalf("Failed to migrate database: %v", err)
-	}
+	DB.AutoMigrate(&model.Business{})
 
 	log.Println("Database connected and migrations applied successfully")
-	return sqlDb
+	migration()
+	return DB, nil
+}
+
+func migration() {
+	log.Println("Database migration started.")
+
+	DB.AutoMigrate(&model.Business{})
+
 }
