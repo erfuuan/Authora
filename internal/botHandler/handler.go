@@ -11,8 +11,7 @@ import (
 	"github.com/erfuuan/Authora/model"
 )
 
-func handleSignUp(update tgbotapi.Update, bot *tgbotapi.BotAPI) {
-
+func HandleSignUp(update tgbotapi.Update, bot *tgbotapi.BotAPI) {
 	name := strings.TrimSpace(strings.TrimPrefix(update.Message.Text, "/signup"))
 	if name == "" {
 		bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, "Please provide a business name. Usage: /signup <BusinessName>"))
@@ -30,4 +29,8 @@ func handleSignUp(update tgbotapi.Update, bot *tgbotapi.BotAPI) {
 	}
 	msg := tgbotapi.NewMessage(update.Message.Chat.ID, fmt.Sprintf("Successfully signed up! Your token is: %s", token))
 	bot.Send(msg)
+}
+
+func verifyOtpRequest(update tgbotapi.Update, bot *tgbotapi.BotAPI) {
+
 }

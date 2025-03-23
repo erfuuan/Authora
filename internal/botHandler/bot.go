@@ -12,33 +12,9 @@ import (
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"golang.org/x/net/proxy"
-
-	"github.com/erfuuan/Authora/connection"
 )
 
-// func handleSignUp(update tgbotapi.Update, bot *tgbotapi.BotAPI) {
-
-// 	name := strings.TrimSpace(strings.TrimPrefix(update.Message.Text, "/signup"))
-// 	if name == "" {
-// 		bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, "Please provide a business name. Usage: /signup <BusinessName>"))
-// 		return
-// 	}
-// 	token := uuid.NewString()
-// 	business := model.Business{
-// 		Token: token,
-// 		Name:  name,
-// 	}
-// 	err := connection.DB.Create(&business).Error
-// 	if err != nil {
-// 		fmt.Println("failed to create : ", err)
-// 		bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, "failed to create , please try again later"))
-// 	}
-// 	msg := tgbotapi.NewMessage(update.Message.Chat.ID, fmt.Sprintf("Successfully signed up! Your token is: %s", token))
-// 	bot.Send(msg)
-// }
-
-func main() {
-	connection.InitDb()
+func InitBot() {
 	// Set up the SOCKS5 proxy
 	socks5Proxy := "socks5://127.0.0.1:25344" // Change this to your proxy address
 	proxyURL, err := url.Parse(socks5Proxy)
@@ -63,7 +39,7 @@ func main() {
 	httpClient := &http.Client{Transport: transport}
 
 	// Initialize the Telegram bot with the proxy-configured HTTP client
-	bot, err := tgbotapi.NewBotAPIWithClient("token", tgbotapi.APIEndpoint, httpClient)
+	bot, err := tgbotapi.NewBotAPIWithClient("7808588487:AAFXqaEb8K1SpLY4K-G30znIIk3NLC1I4Cs", tgbotapi.APIEndpoint, httpClient)
 	if err != nil {
 		log.Fatal("Failed to create bot:", err)
 	}
@@ -82,7 +58,7 @@ func main() {
 
 	for {
 		for update := range updates {
-
+			fmt.Println(update)
 			jsonData, err := json.MarshalIndent(update, "", "  ")
 			if err != nil {
 				log.Println("Error formatting JSON:", err)
@@ -91,13 +67,20 @@ func main() {
 			}
 
 			if strings.HasPrefix(update.Message.Text, "/signup") {
-				fmt.Println("YES")
-				// handleSignUp(update, bot)
-				botHandler.handleSignUp(update)
+				HandleSignUp(update, bot)
 			}
 
 			if strings.HasPrefix(update.Message.Text, "/start") {
 				bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, "welcome to bot"))
+			}
+
+			if strings.HasPrefix(update.Message.Text, "/start") {
+				bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, "welcome to bot"))
+			}
+
+			if strings.HasPrefix(update.Message.Text, "/verifyOtpRequest") {
+				verifyOtpRequest(update, bot)
+
 			}
 
 		}
