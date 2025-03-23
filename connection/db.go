@@ -24,9 +24,7 @@ func InitDb(cfg *conf.Config) (*gorm.DB, error) {
 		log.Fatal("Failed to connect to the database:", err)
 		return nil, err
 	}
-
-	DB.AutoMigrate(&model.Business{})
-
+	migration()
 	log.Println("Database connected and migrations applied successfully")
 	migration()
 	return DB, nil
@@ -36,5 +34,6 @@ func migration() {
 	log.Println("Database migration started.")
 
 	DB.AutoMigrate(&model.Business{})
+	DB.AutoMigrate(&model.User{})
 
 }

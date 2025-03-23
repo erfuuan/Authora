@@ -15,10 +15,10 @@ func main() {
 	cfg := conf.LoadConf()
 
 	connection.InitDb(cfg)
+	connection.InitRedis(cfg)
 
+	go apiService.Init(cfg)
 	botHandler.Init(cfg)
-
-	apiService.Init(cfg)
 
 	fmt.Println(cfg)
 

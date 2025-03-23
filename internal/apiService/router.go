@@ -1,11 +1,13 @@
-package apiRoute
+package apiService
 
 import (
-	"github.com/erfuuan/Authora/handler"
 	"github.com/gofiber/fiber/v3"
 )
 
-func Router(app *fiber.App) {
+func Router(router fiber.Router) {
+	router.Get("/ping", Ping)
+	router.Post("/send-otp", SendOtp)
 
-	app.Get("/ping", handler.Ping)
+	router.Post("/user-verify", userIdVerify)
+
 }
