@@ -1,3 +1,5 @@
+<img src="asset/logo.png" alt="My Image" width="300" height="400">
+
 # Authora - Telegram 2FA Bot Service
 
 **Authora** is a Go-based Telegram bot that provides authentication (2FA) services for businesses. Instead of using email or SMS for OTP verification, businesses can integrate with this bot to send OTPs to users through Telegram.
