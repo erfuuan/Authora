@@ -1,19 +1,23 @@
 package connection
 
 import (
+	"fmt"
 	"log"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
+	"github.com/erfuuan/Authora/conf"
 	"github.com/erfuuan/Authora/model"
 )
 
 var DB *gorm.DB
 
-func InitDb() (*gorm.DB, error) {
+func InitDb(cfg *conf.Config) (*gorm.DB, error) {
 	var err error
-	dsn := "user=Authora password=Authora dbname=Authora host=localhost port=5432 sslmode=disable"
+	dsn := fmt.Sprintf("user=%s password=%s dbname=%s host=%s port=%s sslmode=disable",
+		cfg.DBUser, cfg.DBPassword, cfg.DBName, cfg.DBHost, cfg.DBPort)
+
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {

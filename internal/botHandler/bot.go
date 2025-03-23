@@ -12,9 +12,11 @@ import (
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"golang.org/x/net/proxy"
+
+	"github.com/erfuuan/Authora/conf"
 )
 
-func InitBot() {
+func InitBot(cfg *conf.Config) {
 	// Set up the SOCKS5 proxy
 	socks5Proxy := "socks5://127.0.0.1:25344" // Change this to your proxy address
 	proxyURL, err := url.Parse(socks5Proxy)
@@ -39,7 +41,7 @@ func InitBot() {
 	httpClient := &http.Client{Transport: transport}
 
 	// Initialize the Telegram bot with the proxy-configured HTTP client
-	bot, err := tgbotapi.NewBotAPIWithClient("7808588487:AAFXqaEb8K1SpLY4K-G30znIIk3NLC1I4Cs", tgbotapi.APIEndpoint, httpClient)
+	bot, err := tgbotapi.NewBotAPIWithClient(cfg.BotToken, tgbotapi.APIEndpoint, httpClient)
 	if err != nil {
 		log.Fatal("Failed to create bot:", err)
 	}
