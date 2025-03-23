@@ -16,7 +16,7 @@ import (
 	"github.com/erfuuan/Authora/conf"
 )
 
-func InitBot(cfg *conf.Config) {
+func Init(cfg *conf.Config) {
 	// Set up the SOCKS5 proxy
 	socks5Proxy := "socks5://127.0.0.1:25344" // Change this to your proxy address
 	proxyURL, err := url.Parse(socks5Proxy)

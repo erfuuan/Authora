@@ -9,6 +9,7 @@ import (
 
 // Config struct to hold configuration values
 type Config struct {
+	Port       string
 	DBUser     string
 	DBPassword string
 	DBName     string
@@ -25,6 +26,7 @@ func LoadConf() *Config {
 	}
 
 	return &Config{
+		Port:       os.Getenv("PORT"),
 		DBUser:     os.Getenv("DB_USER"),
 		DBPassword: os.Getenv("DB_PASSWORD"),
 		DBName:     os.Getenv("DB_NAME"),
