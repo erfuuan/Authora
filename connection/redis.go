@@ -3,6 +3,8 @@ package connection
 import (
 	"context"
 	"fmt"
+	"log"
+	"os"
 
 	"github.com/redis/go-redis/v9"
 
@@ -19,14 +21,13 @@ func InitRedis(cfg *conf.Config) error {
 		Password: cfg.RedisPassword,
 		DB:       0,
 	})
-
 	_, err := rdb.Ping(ctx).Result()
 	if err != nil {
-		return fmt.Errorf("could not connect to Redis: %v", err)
-	} else {
-		fmt.Println("redis connected successfully")
+		log.Fatalf("❌ Redis connection failed: %v", err)
+		os.Exit(1) // Ensures the app exits
 	}
 
+	fmt.Println("✅ Redis connected successfully")
 	RedisClient = rdb
 	Ctx = ctx
 

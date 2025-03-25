@@ -35,7 +35,7 @@ func SendOtp(c fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"message": "not Found !", "statusCode": 404})
 	}
-	fmt.Println(userData)
+
 	botHandler.SnedMsg(userData.ChatId, reqBody.Message)
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "ok", "statusCode": 200})
@@ -57,7 +57,7 @@ func userIdVerify(c fiber.Ctx) error {
 
 	if result.Error != nil {
 		if result.Error == gorm.ErrRecordNotFound {
-			fmt.Println(" user not found in DB")
+			fmt.Println(" user not found in DB , system generate token and send with bot for verify user and get chatId")
 			token := uuid.NewString()
 			err := connection.RedisClient.Set(connection.Ctx, token, reqBody.UserId, 120*time.Second).Err()
 			if err != nil {
@@ -67,10 +67,5 @@ func userIdVerify(c fiber.Ctx) error {
 			return c.Status(fiber.StatusCreated).JSON(fiber.Map{"message": "enter this to bot for verify : /user-verify " + token, "statusCode": 201})
 		}
 	}
-	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "user already exist", "statusCode": 201})
-
-	// botHandler.SnedMsg(userData.ChatId, reqBody.Message)
-
-	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "ok", "statusCode": 200})
-
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "user already exist", "statusCode": 200})
 }

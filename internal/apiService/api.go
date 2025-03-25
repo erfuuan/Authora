@@ -5,6 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/cors"
+	"github.com/gofiber/fiber/v3/middleware/logger"
 
 	"github.com/erfuuan/Authora/conf"
 	"github.com/erfuuan/Authora/middlewares"
@@ -18,6 +19,11 @@ func Init(cfg *conf.Config) {
 		AllowMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 		AllowHeaders: []string{"*"},
 	}))
+
+	app.Use(logger.New(logger.Config{
+		Format: "[${ip}]:${port} ${status} - ${method} ${path}\n",
+	}))
+
 	// Define routes
 	api := app.Group("/api/v1/authora", middlewares.AuthApi)
 	Router(api)
@@ -27,4 +33,5 @@ func Init(cfg *conf.Config) {
 	if err != nil {
 		log.Fatal("Error starting server: ", err)
 	}
+	log.Println("✅ Application started successfully! 🚀")
 }

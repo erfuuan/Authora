@@ -1,0 +1,11 @@
+# Root directory of your project
+root = "."
+
+# Exclude directories (like the vendor folder)
+# exclude_dir = ["tmp","pkg","conf","internal"]
+
+# Watch `.go` files in the current directory
+watcher = "."
+
+# Command to run
+cmd = "go run main.go"
