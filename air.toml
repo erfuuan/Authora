@@ -2,7 +2,7 @@
 root = "."
 
 # Exclude directories (like the vendor folder)
-# exclude_dir = ["tmp","pkg","conf","internal"]
+exclude_dir = ["tmp"]
 
 # Watch `.go` files in the current directory
 watcher = "."

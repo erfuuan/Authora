@@ -7,7 +7,5 @@ import (
 func Router(router fiber.Router) {
 	router.Get("/ping", Ping)
 	router.Post("/send-otp", SendOtp)
-
 	router.Post("/user-verify", userIdVerify)
-
 }

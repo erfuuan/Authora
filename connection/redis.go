@@ -4,15 +4,16 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/redis/go-redis/v9"
 
 	"github.com/erfuuan/Authora/conf"
 )
 
-var RedisClient *redis.Client
-var Ctx context.Context
+var (
+	RedisClient *redis.Client
+	Ctx         context.Context
+)
 
 func InitRedis(cfg *conf.Config) error {
 	ctx := context.Background()
@@ -23,13 +24,10 @@ func InitRedis(cfg *conf.Config) error {
 	})
 	_, err := rdb.Ping(ctx).Result()
 	if err != nil {
-		log.Fatalf("❌ Redis connection failed: %v", err)
-		os.Exit(1) // Ensures the app exits
+		log.Panic("❌ Redis connection failed: ", err) // This should stop the app if Redis is not working
 	}
-
 	fmt.Println("✅ Redis connected successfully")
 	RedisClient = rdb
 	Ctx = ctx
-
 	return nil
 }

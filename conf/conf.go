@@ -3,11 +3,11 @@ package conf
 import (
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/joho/godotenv"
 )
 
-// Config struct to hold configuration values
 type Config struct {
 	Port          string
 	DBUser        string
@@ -18,13 +18,21 @@ type Config struct {
 	BotToken      string
 	RedisAddress  string
 	RedisPassword string
+	SslMode       string
+	DebugMode     bool
 }
 
-// LoadConfig loads configuration from environment variables or .env file
 func LoadConf() *Config {
-	err := godotenv.Load() // Load the .env file if available
+	err := godotenv.Load()
 	if err != nil {
 		log.Println("Warning: No .env file found, using system environment variables")
+	}
+
+	debugModeStr := os.Getenv("DEBUG_MODE")
+	debugMode, err := strconv.ParseBool(debugModeStr)
+	if err != nil {
+		log.Printf("Warning: Invalid boolean value for DEBUG_MODE (%s), defaulting to false", debugModeStr)
+		debugMode = false
 	}
 
 	return &Config{
@@ -37,5 +45,7 @@ func LoadConf() *Config {
 		BotToken:      os.Getenv("BOT_TOKEN"),
 		RedisAddress:  os.Getenv("REDIS_ADDRESS"),
 		RedisPassword: os.Getenv("REDIS_PASSWORD"),
+		SslMode:       os.Getenv("SSL_MODE"),
+		DebugMode:     debugMode,
 	}
 }

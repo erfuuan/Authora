@@ -13,10 +13,10 @@ import (
 
 func Init(cfg *conf.Config) {
 	app := fiber.New(fiber.Config{})
-	// Middleware: CORS configuration
+
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"*"},
-		AllowMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+		AllowMethods: []string{"GET", "POST"},
 		AllowHeaders: []string{"*"},
 	}))
 
@@ -24,10 +24,9 @@ func Init(cfg *conf.Config) {
 		Format: "[${ip}]:${port} ${status} - ${method} ${path}\n",
 	}))
 
-	// Define routes
 	api := app.Group("/api/v1/authora", middlewares.AuthApi)
 	Router(api)
-	// Get the port from the config and start the server
+
 	port := cfg.Port
 	err := app.Listen(port)
 	if err != nil {

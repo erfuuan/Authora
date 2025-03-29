@@ -40,7 +40,6 @@ func AuthApi(c fiber.Ctx) error {
 			fmt.Println("❌ Error marshalling JSON:", err)
 		}
 
-		// Save to Redis with expiration
 		err = connection.RedisClient.Set(connection.Ctx, token, jsonData, 24*time.Hour).Err()
 		if err != nil {
 			fmt.Println("❌ Error saving to Redis:", err)
