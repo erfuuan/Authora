@@ -1,4 +1,5 @@
-<img src="asset/logo.png" alt="My Image" width="300" height="400">
+<img src="asset/logo.png" alt="My Image" width="325" height="350">
+
 
 # Authora - Telegram 2FA Bot Service
 
